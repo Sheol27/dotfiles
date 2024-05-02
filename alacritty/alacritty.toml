@@ -1,5 +1,5 @@
 
-import = ["~/.config/alacritty/catppuccin-frappe.toml"]
+import = ["~/.config/alacritty/gruvbox.toml"]
 
 [env]
 TERM = "xterm-256color"
@@ -9,6 +9,9 @@ normal = { family = "FiraCode Nerd Font Mono", style = "Regular" }
 bold = { family = "FiraCode Nerd Font Mono", style = "Bold" }
 italic = { family = "FiraCode Nerd Font Mono", style = "Italic" }
 bold_italic = { family = "FiraCode Nerd Font Mono", style = "Regular" }
-size = 14
+size = 12
 offset = { x = 0, y = 0 }
 glyph_offset = { x = 0, y = 0 }
+
+[window]
+padding = { x = 5, y = 5 }

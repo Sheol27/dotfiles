@@ -14,10 +14,10 @@ return {
       -- configurations
     },
   },
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "catppuccin-frappe",
-    },
-  },
+  -- {
+  --   "LazyVim/LazyVim",
+  --   opts = {
+  --     colorscheme = "catppuccin-frappe",
+  --   },
+  -- },
 }
