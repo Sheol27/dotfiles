@@ -4,7 +4,9 @@
 
 vim.opt.winbar = "%=%m %f"
 vim.opt.mouse = ""
-vim.o.termguicolors = true
+vim.opt.termguicolors = true
+
+vim.opt.scroll = 10
 
 function ChangeLspServerPort(lspServerName, newPort)
   -- Stop the specified LSP server
