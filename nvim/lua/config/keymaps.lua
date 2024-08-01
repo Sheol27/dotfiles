@@ -12,3 +12,4 @@ vim.keymap.set("t", "jj", "<C-\\><C-n>", { noremap = true })
 
 vim.keymap.set("n", "<Ctrl-d>", "<Ctrl-d>zz")
 vim.keymap.set("n", "<Ctrl-u>", "<Ctrl-u>zz")
+vim.keymap.set("n", "<leader>fx", ":!chmod +x %<CR>")
