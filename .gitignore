@@ -1,8 +1,9 @@
 *
 !nvim
 !nvim/**
-!tmux
-!tmux/**
+!tmux/tmux.conf
 !alacritty
 !alacritty/**
+!tms
+!tms/**
 !.gitignore
