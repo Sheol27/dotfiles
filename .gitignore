@@ -7,3 +7,5 @@
 !tms
 !tms/**
 !.gitignore
+!bin
+!bin/**
