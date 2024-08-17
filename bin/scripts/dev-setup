@@ -4,7 +4,7 @@
 current_dir_name=$(basename "$PWD")
 
 # Create the .devcontainer.json file with the provided template
-cat <<EOF > .devcontainer.json
+cat <<EOF >.devcontainer.json
 {
   "name": "$current_dir_name",
   "build": {
@@ -12,7 +12,9 @@ cat <<EOF > .devcontainer.json
     "context": "."
   },
   "features": {
-    "ghcr.io/devcontainers/features/nix:1": {}
+    "ghcr.io/devcontainers/features/nix:1": {
+      "packages": "neovim,bash-completion,fd,ripgrep,fzf,lazygit,nodejs,unzip,python3"
+    }
   },
   "settings": {
     "terminal.integrated.shell.linux": "/bin/bash"
@@ -21,4 +23,3 @@ cat <<EOF > .devcontainer.json
 EOF
 
 echo ".devcontainer.json has been created with the name: $current_dir_name"
-
