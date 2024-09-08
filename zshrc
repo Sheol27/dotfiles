@@ -37,7 +37,9 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 bindkey '^[[Z' autosuggest-accept
 
-export CPATH=/opt/homebrew/include
-export LIBRARY_PATH=/opt/homebrew/lib
+bindkey -e .
+
+export CPATH=/opt/homebrew/include:$HOME/Dev/libraries/include
+export LIBRARY_PATH=/opt/homebrew/lib:$HOME/Dev/libraries/lib
 
 . "$HOME/.cargo/env"
