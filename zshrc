@@ -1,4 +1,7 @@
 setopt inc_append_history
+
+bindkey -e .
+
 # Git
 autoload -Uz vcs_info
 precmd() { vcs_info }
@@ -22,6 +25,9 @@ fi
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
+# custom scripts
+export PATH="$HOME/.config/bin/scripts:$PATH"
+
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
@@ -35,9 +41,8 @@ source <(fzf --zsh)
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-bindkey '^[[Z' autosuggest-accept
 
-bindkey -e .
+bindkey '^[[Z' autosuggest-accept
 
 export CPATH=/opt/homebrew/include:$HOME/Dev/libraries/include
 export LIBRARY_PATH=/opt/homebrew/lib:$HOME/Dev/libraries/lib
