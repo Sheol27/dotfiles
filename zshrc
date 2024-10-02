@@ -44,7 +44,12 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 bindkey '^[[Z' autosuggest-accept
 
-export CPATH=/opt/homebrew/include:$HOME/Dev/libraries/include
-export LIBRARY_PATH=/opt/homebrew/lib:$HOME/Dev/libraries/lib
+libraries=$HOME/Dev/libraries
+export CPATH=/opt/homebrew/include:$libraries/include:/opt/homebrew/include/eigen3 
+export LIBRARY_PATH=/opt/homebrew/lib:$libraries/lib
+export CGAL_DIR=$libraries
+export CMAKE_INSTALL_PREFIX=$libraries
+export CMAKE_PREFIX_PATH=$libraries:$CMAKE_PREFIX_PATH
+export DYLD_LIBRARY_PATH=$libraries/lib:$DYLD_LIBRARY_PATH
 
 . "$HOME/.cargo/env"
