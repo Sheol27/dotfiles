@@ -1,3 +1,7 @@
 [[search_dirs]]
-path = ""
+path = "Projects"
+depth = 1
+
+[[search_dirs]]
+path = "University"
 depth = 1
