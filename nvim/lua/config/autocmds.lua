@@ -32,3 +32,18 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
     end
   end,
 })
+
+local dispatch_group = vim.api.nvim_create_augroup("DispatchCommands", { clear = true })
+
+local function set_dispatch(filetype, command)
+  vim.api.nvim_create_autocmd("FileType", {
+    group = dispatch_group,
+    pattern = filetype,
+    callback = function()
+      vim.b.dispatch = command
+    end,
+  })
+end
+
+set_dispatch("python", "python3 %")
+set_dispatch("javascript", "bun %")
