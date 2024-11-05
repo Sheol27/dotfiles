@@ -14,6 +14,7 @@ alias vim="nvim"
 alias ls='ls --color=auto'
 alias ll='ls -lG'
 alias la='ls -aG'
+alias cat='bat'
 
 export PATH=/opt/homebrew/bin:$PATH
 
@@ -39,7 +40,6 @@ source <(fzf --zsh)
 
 # zsh autosuggestions
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 bindkey '^[[Z' autosuggest-accept
