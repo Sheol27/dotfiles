@@ -6,12 +6,13 @@ vim.keymap.set("n", "<Ctrl-d>", "<Ctrl-d>zz")
 vim.keymap.set("n", "<Ctrl-u>", "<Ctrl-u>zz")
 vim.keymap.set("n", "<leader>fx", ":!chmod +x %<CR>", { desc = "Make file executable" })
 
-local lazyterm = function()
-  LazyVim.terminal(nil, { cwd = LazyVim.root() })
-end
+vim.keymap.set("n", "<Esc><cr>", function()
+  Snacks.terminal("zsh")
+end, { desc = "Terminal (Root Dir)" })
 
-vim.keymap.set("n", "<Esc><cr>", lazyterm, { desc = "Terminal (Root Dir)" })
 vim.keymap.set("t", "<Esc><cr>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+
+vim.keymap.set("n", "<leader><tab>s", "<cmd>tab split<CR>", { desc = "Tab split" })
 
 -- Lua function to capitalize each word in selection
 function capitalize_words()
