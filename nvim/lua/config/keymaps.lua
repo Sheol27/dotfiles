@@ -6,9 +6,7 @@ vim.keymap.set("n", "<Ctrl-d>", "<Ctrl-d>zz")
 vim.keymap.set("n", "<Ctrl-u>", "<Ctrl-u>zz")
 vim.keymap.set("n", "<leader>fx", ":!chmod +x %<CR>", { desc = "Make file executable" })
 
-vim.keymap.set("n", "<Esc><cr>", function()
-  Snacks.terminal("zsh")
-end, { desc = "Terminal (Root Dir)" })
+vim.keymap.set("n", "<Esc><cr>", "<cmd>ToggleTerm direction=float<cr>", { desc = "Terminal (Root Dir)" })
 
 vim.keymap.set("t", "<Esc><cr>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 
