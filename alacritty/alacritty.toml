@@ -1,4 +1,5 @@
-import = ["~/.config/alacritty/colorschemes/sonokai-atlantis.toml"]
+[general]
+import = ["~/.config/alacritty/colorschemes/tokyo-night.toml"]
 
 [env]
 TERM = "xterm-256color"
@@ -17,3 +18,5 @@ padding = { x = 1, y = 3 }
 opacity = 0.90
 blur = true
 option_as_alt = "OnlyLeft"
+startup_mode = "Maximized"
+decorations = "none"
