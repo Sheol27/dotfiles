@@ -13,7 +13,6 @@ return {
       require('oil').setup {
         columns = { 'icon' },
         keymaps = {
-          ['q'] = 'actions.close',
           ['<C-e>'] = 'actions.open_external',
           ['<C-y>'] = 'actions.yank_entry',
           ['<C-h>'] = false,

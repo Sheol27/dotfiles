@@ -4,19 +4,17 @@ return {
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   opts = {
     lsp = {
-      definitions = {
-        handler = function(api, locations)
-          print 'HELLo'
-          if not locations or vim.tbl_isempty(locations) then
-            vim.notify('No definitions found', vim.log.levels.INFO)
-            return
-          end
-          if #locations == 1 then
-            vim.lsp.util.jump_to_location(locations[1])
-          else
-            require('fzf-lua.providers.lsp').default_handler(api, locations)
-          end
+      symbols = {
+        symbol_hl = function(s)
+          return 'TroubleIcon' .. s
         end,
+        symbol_fmt = function(s)
+          return s:lower() .. '\t'
+        end,
+        child_prefix = false,
+      },
+      code_actions = {
+        previewer = vim.fn.executable 'delta' == 1 and 'codeaction_native' or nil,
       },
     },
   },
@@ -39,5 +37,6 @@ return {
     { '<leader>D', '<cmd>FzfLua lsp_type_definitions<cr>', desc = 'Type [D]efinition' },
     { '<leader>ds', '<cmd>FzfLua lsp_document_symbols<cr>', desc = '[D]ocument [S]ymbols' },
     { '<leader>ws', '<cmd>FzfLua lsp_workspace_symbols<cr>', desc = '[W]orkspace [S]ymbols' },
+    { '<leader>ca', '<cmd>FzfLua lsp_code_actions<cr>', desc = 'LSP: [C]ode [A]ctions' },
   },
 }
