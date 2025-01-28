@@ -466,6 +466,48 @@ require('lazy').setup({
         end,
       })
 
+      local lspconfig = require 'lspconfig'
+
+      local border = {
+        { '┌', 'FloatBorder' },
+        { '─', 'FloatBorder' },
+        { '┐', 'FloatBorder' },
+        { '│', 'FloatBorder' },
+        { '┘', 'FloatBorder' },
+        { '─', 'FloatBorder' },
+        { '└', 'FloatBorder' },
+        { '│', 'FloatBorder' },
+      }
+
+      -- Add the border on hover and on signature help popup window
+      local handlers = {
+        ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+        ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+      }
+
+      -- Add border to the diagnostic popup window
+      vim.diagnostic.config {
+        virtual_text = {
+          prefix = '■ ', -- Could be '●', '▎', 'x', '■', , 
+        },
+        float = { border = border },
+      }
+
+      -- Add the border (handlers) to the lua language server
+      lspconfig.lua_ls.setup {
+        handlers = handlers,
+        -- The rest of the server configuration
+      }
+
+      -- Add the border (handlers) to the pyright server
+      lspconfig.ruff.setup {
+        {
+          init_options = {
+            settings = {},
+          },
+        },
+      }
+
       -- Change diagnostic symbols in the sign column (gutter)
       -- if vim.g.have_nerd_font then
       --   local signs = { ERROR = '', WARN = '', INFO = '', HINT = '' }
@@ -495,7 +537,6 @@ require('lazy').setup({
       local servers = {
         clangd = {},
         -- gopls = {},
-        -- pyright = {},
         rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -713,6 +754,12 @@ require('lazy').setup({
           { name = 'luasnip' },
           { name = 'path' },
         },
+        {
+          window = {
+            completion = cmp.config.window.bordered(),
+            documentation = cmp.config.window.bordered(),
+          },
+        },
       }
     end,
   },
@@ -728,7 +775,7 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'tokyonight'
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'

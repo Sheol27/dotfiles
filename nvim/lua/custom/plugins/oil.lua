@@ -31,6 +31,8 @@ return {
             return vim.tbl_contains(folder_skip, name)
           end,
         },
+
+        silence_scp_warning = true,
       }
 
       vim.keymap.set('n', '<space>e', '<CMD>Oil --float<CR>', { desc = '[E]xplorer' })
