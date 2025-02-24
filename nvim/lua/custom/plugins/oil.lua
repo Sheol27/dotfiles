@@ -24,6 +24,7 @@ return {
         win_options = {
           winbar = '%{v:lua.CustomOilBar()}',
         },
+        delete_to_trash = true,
         view_options = {
           show_hidden = true,
           is_always_hidden = function(name, _)
@@ -33,9 +34,10 @@ return {
         },
 
         silence_scp_warning = true,
+        extra_scp_args = { '-O' },
       }
 
-      vim.keymap.set('n', '<space>e', '<CMD>Oil --float<CR>', { desc = '[E]xplorer' })
+      vim.keymap.set('n', '-', '<CMD>Oil --float<CR>', { desc = '[E]xplorer' })
     end,
   },
 }
