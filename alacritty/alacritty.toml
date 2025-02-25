@@ -1,5 +1,5 @@
 [general]
-import = ["~/.config/alacritty/colorschemes/tokyo-night.toml"]
+import = ["~/.config/alacritty/colorschemes/sonokai-shusia.toml"]
 
 [env]
 TERM = "xterm-256color"

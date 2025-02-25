@@ -3,7 +3,7 @@ return {
     'folke/tokyonight.nvim',
     priority = 1000,
     init = function()
-      vim.cmd.colorscheme 'tokyonight'
+      -- vim.cmd.colorscheme 'tokyonight'
       vim.cmd.hi 'Comment gui=none'
     end,
     opts = {
@@ -11,8 +11,13 @@ return {
     },
   },
   {
-    'shaunsingh/nord.nvim',
+    'sainnhe/sonokai',
+    lazy = false,
     priority = 1000,
-    init = function() end,
+    config = function()
+      vim.g.sonokai_enable_italic = true
+      vim.g.sonokai_style = 'espresso'
+      vim.cmd.colorscheme 'sonokai'
+    end,
   },
 }
