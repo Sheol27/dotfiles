@@ -9,6 +9,7 @@ mkdir -p "$XDG_CONFIG_HOME/nixpkgs"
 
 # Create symbolic links for nvim and config.nix, using absolute paths for clarity
 ln -sf "$PWD/nvim" "$XDG_CONFIG_HOME"/nvim
+ln -sf "$PWD/flake.nix" /tmp/flake.nix
 
 echo "export TERM=screen-256color" >>"$HOME/.bashrc"
 
