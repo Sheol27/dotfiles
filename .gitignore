@@ -11,3 +11,4 @@
 !bin/**
 !zshrc
 !flake.nix
+!flake.lock
