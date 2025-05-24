@@ -13,4 +13,4 @@ ln -sf "$PWD/flake.nix" /tmp/flake.nix
 
 echo "export TERM=screen-256color" >>"$HOME/.bashrc"
 
-nvim --headless "+Lazy! sync" +qa
+#nvim --headless "+Lazy! sync" +qa
