@@ -599,7 +599,7 @@ require('lazy').setup({
             luasnip.lsp_expand(args.body)
           end,
         },
-        completion = { completeopt = 'menu,menuone,noinsert' },
+        completion = { autocomplete = false, completeopt = 'menu,menuone,noinsert' },
 
         -- For an understanding of why these mappings were
         -- chosen, you will need to read `:help ins-completion`
@@ -629,7 +629,7 @@ require('lazy').setup({
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
           --  completions whenever it has completion options available.
-          ['<C-Space>'] = cmp.mapping.complete {},
+          ['<C-e>'] = cmp.mapping.complete {},
 
           -- Think of <c-l> as moving to the right of your snippet expansion.
           --  So if you have a snippet that's like:
@@ -797,9 +797,9 @@ require('lazy').setup({
     path = "~/Projects",
   },
 })
+
 require 'custom.keybindings'
 
--- Make <leader>ch available only in buffers where clangd is attached
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -812,4 +812,28 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
   end,
 })
+
+vim.cmd([[
+
+  "rust
+let s:rust_efm = [
+      \ '%-G%.%#Compiling%.%#',
+      \ '%-GFinished%#',
+      \ '%Eerror[E%n]:\ %m',
+      \ '%Eerror:\ %m',
+      \ '%Wwarning[W%n]:\ %m',
+      \ '%Wwarning:\ %m',
+      \ '%Inote:\ %m',
+      \ '%C%.%#-->\ %f:%l:%c',
+      \ '%Z',
+      \ '%-G%\\s%#'
+      \ ]
+
+let s:rust_efm = join(s:rust_efm, ',')
+
+let &errorformat = s:rust_efm . ',' . &errorformat
+
+  "python
+  set errorformat+=%.%#File\ \"%f\"\\,\ line\ %l%.%#
+]])
 
