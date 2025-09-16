@@ -121,6 +121,6 @@ vim.keymap.set({ "n", "t" }, "<C-l>", smart_nav("l"), opts)
 vim.keymap.set("n", "<leader>-", function()
   local dir = vim.fn.input("Path: ", vim.fn.getcwd(), "dir")
   if dir ~= "" then
-    require("oil").open_float(dir)
+    require("oil").open(dir)
   end
 end, { desc = "Open Oil in custom dir" })

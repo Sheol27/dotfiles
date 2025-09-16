@@ -52,7 +52,7 @@ return {
         extra_scp_args = { '-O' },
       }
 
-      vim.keymap.set('n', '-', '<CMD>Oil --float<CR>', { desc = '[E]xplorer' })
+      vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = '[E]xplorer' })
     end,
   },
 }
