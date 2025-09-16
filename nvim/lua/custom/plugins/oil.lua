@@ -10,8 +10,9 @@ return {
         return '  ' .. vim.fn.fnamemodify(path, ':.')
       end
 
-      require('oil').setup {
-        columns = { 'icon' },
+      local oil = require('oil')
+      oil.setup {
+        columns = { 'icon', "permissions", "size", "mtime" },
         keymaps = {
           ['<C-e>'] = 'actions.open_external',
           ['<C-y>'] = 'actions.yank_entry',
@@ -20,6 +21,20 @@ return {
           ['<C-k>'] = false,
           ['<C-j>'] = false,
           ['<M-h>'] = 'actions.select_split',
+          ['g-'] = 'actions.cd',
+          ["<leader>f"] = {
+            callback = function()
+              local dir = oil.get_current_dir()
+              if not dir then return end
+              local ok, fzf = pcall(require, "fzf-lua")
+              if not ok then
+                vim.notify("fzf-lua not found", vim.log.levels.ERROR)
+                return
+              end
+              fzf.files({ cwd = dir })
+            end,
+            desc = "fzf-lua files in current oil dir",
+          },
         },
         win_options = {
           winbar = '%{v:lua.CustomOilBar()}',
