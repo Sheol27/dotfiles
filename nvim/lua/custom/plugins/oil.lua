@@ -3,11 +3,53 @@ return {
     'stevearc/oil.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
-      CustomOilBar = function()
-        local path = vim.fn.expand '%'
-        path = path:gsub('oil://', '')
+      vim.api.nvim_set_hl(0, 'OilWinbarCWD',  { link = 'Directory' })
+      vim.api.nvim_set_hl(0, 'OilWinbarPath', { link = 'Text' })
+      vim.api.nvim_set_hl(0, 'OilWinbarSep',  { link = 'Text' })
 
-        return '  ' .. vim.fn.fnamemodify(path, ':.')
+      CustomOilBar = function()
+        local ok, oil = pcall(require, 'oil')
+        if not ok then return '' end
+
+        local dir = oil.get_current_dir()
+        if not dir then return '' end
+
+        local cwd = vim.fn.getcwd(0, 0)
+
+        local function noslash(p) return (p or ''):gsub('/+$', '') end
+        local function strip_scheme(p) return (p or ''):gsub('^oil[%-%w]*://', '') end
+
+        local dir_clean = noslash(strip_scheme(dir))
+        local cwd_clean = noslash(cwd)
+
+        local dir_disp
+        local inside = false
+        if dir_clean:sub(1, #cwd_clean) == cwd_clean and #dir_clean > #cwd_clean then
+          dir_disp = vim.fn.fnamemodify(dir, ':.')
+          inside = true
+        else
+          dir_disp = strip_scheme(dir)
+        end
+
+        local cwd_disp = vim.fn.fnamemodify(cwd, ':~') 
+
+        if dir_clean == cwd_clean then
+          return table.concat({
+            '%#OilWinbarCWD#', ' ', cwd_disp, '%*'
+          })
+        end
+
+        local sep = "❰!❱"
+          
+        if inside then
+          sep = "›"
+        end
+
+        return table.concat({
+          '%#OilWinbarCWD#',  ' ', cwd_disp, '%*',
+          ' ', '%#OilWinbarSep#', sep, '%*', ' ',
+          '%#OilWinbarPath#', dir_disp, '%*',
+        })
       end
 
       local oil = require('oil')
@@ -22,7 +64,7 @@ return {
           ['<C-j>'] = false,
           ['<M-h>'] = 'actions.select_split',
           ['g-'] = 'actions.cd',
-          ["<leader>f"] = {
+          ["<leader>sf"] = {
             callback = function()
               local dir = oil.get_current_dir()
               if not dir then return end
@@ -35,9 +77,22 @@ return {
             end,
             desc = "fzf-lua files in current oil dir",
           },
+          ["<leader>sg"] = {
+            callback = function()
+              local dir = oil.get_current_dir()
+              if not dir then return end
+              local ok, fzf = pcall(require, "fzf-lua")
+              if not ok then
+                vim.notify("fzf-lua not found", vim.log.levels.ERROR)
+                return
+              end
+              fzf.live_grep_native({ cwd = dir })
+            end,
+            desc = "fzf-lua files in current oil dir",
+          },
         },
         win_options = {
-          winbar = '%{v:lua.CustomOilBar()}',
+          winbar = '%!v:lua.CustomOilBar()',
         },
         delete_to_trash = true,
         view_options = {

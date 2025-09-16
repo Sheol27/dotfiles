@@ -28,27 +28,44 @@ return {
       },
     },
   },
-  keys = {
-    -- { '<leader>s/', '<cmd>FzfLua grep_curbuf<cr>', desc = '[/] Fuzzily search in current buffer' },
-    { '<leader>/', '<cmd>FzfLua grep_curbuf<cr>', desc = '[/] Fuzzily search in current buffer' },
-    { '<leader>sh', '<cmd>FzfLua helptags<cr>', desc = '[S]earch [H]elp' },
-    { '<leader>sk', '<cmd>FzfLua keymaps<cr>', desc = '[S]earch [K]eymaps' },
-    { '<leader><leader>', '<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>', desc = '[ ] Find existing buffers' },
-    { '<leader>sf', '<cmd>FzfLua files<cr>', desc = '[S]earch [F]iles' },
-    { '<leader>ss', '<cmd>FzfLua builtin<cr>', desc = '[S]earch [S]elect FzfLua' },
-    { '<leader>sw', '<cmd>FzfLua grep_cword<cr>', desc = '[S]earch current [W]ord' },
-    { '<leader>sg', '<cmd>FzfLua live_grep<cr>', desc = '[S]earch by [G]rep' },
-    { '<leader>sd', '<cmd>FzfLua diagnostics<cr>', desc = '[S]earch [D]iagnostics' },
-    { '<leader>sr', '<cmd>FzfLua resume<cr>', desc = '[S]earch [R]esume' },
-    { '<leader>sm', '<cmd>FzfLua marks<cr>', desc = '[S]earch [M]arks' },
-    { '<leader>s.', '<cmd>FzfLua oldfiles<cr>', desc = '[S]earch Recent Files ("." for repeat)' },
-    -- { 'gd', '<cmd>FzfLua lsp_definitions<cr>', desc = '[G]oto [D]efinition' },
-    { 'gr', '<cmd>FzfLua lsp_references<cr>', desc = '[G]oto [R]eferences' },
-    { 'gI', '<cmd>FzfLua lsp_implementations<cr>', desc = '[G]oto [I]mplementation' },
-    { '<leader>D', '<cmd>FzfLua lsp_type_definitions<cr>', desc = 'Type [D]efinition' },
-    { '<leader>ds', '<cmd>FzfLua lsp_document_symbols<cr>', desc = '[D]ocument [S]ymbols' },
-    { '<leader>ws', '<cmd>FzfLua lsp_workspace_symbols<cr>', desc = '[W]orkspace [S]ymbols' },
-    { '<leader>ca', '<cmd>FzfLua lsp_code_actions<cr>', desc = 'LSP: [C]ode [A]ctions' },
+  keys = function()
+    local utils_ok, utils = pcall(require, "custom.utils")
 
-  },
+    local ok, fzf = pcall(require, "fzf-lua")
+
+    if not ok then return end
+
+    local function files_oil()
+      fzf.files({ cwd = utils.get_oil_dir() })
+    end
+
+    local function live_grep_oil()
+      fzf.live_grep_native({ cwd = utils.get_oil_dir() })
+    end
+
+    return {
+      -- { "<leader>s/", "<cmd>FzfLua grep_curbuf<cr>", desc = "[/] Fuzzily search in current buffer" },
+      { "<leader>/", "<cmd>FzfLua grep_curbuf<cr>", desc = "[/] Fuzzily search in current buffer" },
+      { "<leader>sh", "<cmd>FzfLua helptags<cr>", desc = "[S]earch [H]elp" },
+      { "<leader>sk", "<cmd>FzfLua keymaps<cr>", desc = "[S]earch [K]eymaps" },
+      { "<leader><leader>", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", desc = "[ ] Find existing buffers" },
+
+      { "<leader>sf", files_oil, desc = "[S]earch [F]iles (Oil dir)" },
+      { "<leader>sg", live_grep_oil, desc = "[S]earch by [G]rep (Oil dir)" },
+
+      { "<leader>ss", "<cmd>FzfLua builtin<cr>", desc = "[S]earch [S]elect FzfLua" },
+      { "<leader>sw", "<cmd>FzfLua grep_cword<cr>", desc = "[S]earch current [W]ord" },
+      { "<leader>sd", "<cmd>FzfLua diagnostics<cr>", desc = "[S]earch [D]iagnostics" },
+      { "<leader>sr", "<cmd>FzfLua resume<cr>", desc = "[S]earch [R]esume" },
+      { "<leader>sm", "<cmd>FzfLua marks<cr>", desc = "[S]earch [M]arks" },
+      { "<leader>s.", "<cmd>FzfLua oldfiles<cr>", desc = '[S]earch Recent Files ("." for repeat)' },
+      -- { "gd", "<cmd>FzfLua lsp_definitions<cr>", desc = "[G]oto [D]efinition" },
+      { "gr", "<cmd>FzfLua lsp_references<cr>", desc = "[G]oto [R]eferences" },
+      { "gI", "<cmd>FzfLua lsp_implementations<cr>", desc = "[G]oto [I]mplementation" },
+      { "<leader>D", "<cmd>FzfLua lsp_type_definitions<cr>", desc = "Type [D]efinition" },
+      { "<leader>ds", "<cmd>FzfLua lsp_document_symbols<cr>", desc = "[D]ocument [S]ymbols" },
+      { "<leader>ws", "<cmd>FzfLua lsp_workspace_symbols<cr>", desc = "[W]orkspace [S]ymbols" },
+      { "<leader>ca", "<cmd>FzfLua lsp_code_actions<cr>", desc = "LSP: [C]ode [A]ctions" },
+    }
+  end,
 }

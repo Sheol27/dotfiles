@@ -5,13 +5,12 @@ return {
     "nvim-lua/plenary.nvim",
     { "m00qek/baleia.nvim", tag = "v1.4.0" },
   },
-  dev = true,
+  dev = false,
   config = function()
     local levels = require("compile-mode.errors").level
 
     ---@type CompileModeOpts
     vim.g.compile_mode = {
-      -- debug = true,
       baleia_setup = true,
       bang_expansion = true,
       default_command = "",

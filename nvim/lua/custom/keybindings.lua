@@ -1,3 +1,5 @@
+local utils = require("custom.utils");
+
 vim.keymap.set('n', '<Esc><cr>', '<cmd>ToggleTerm direction=float<cr>', { desc = 'Terminal (Root Dir)' })
 vim.keymap.set('t', '<Esc><cr>', '<cmd>close<cr>', { desc = 'Hide Terminal' })
 
@@ -46,7 +48,11 @@ end
 
 vim.keymap.set('n', '<leader>td', ToggleDiagnostics, { desc = 'Toggle LSP diagnostics' })
 
-vim.keymap.set("n", '<leader>cc', '<Cmd>Compile<CR>', { desc = 'Compile' })
+vim.keymap.set("n", '<leader>cc', function() 
+  vim.g.compilation_directory = utils.get_oil_dir()
+  vim.cmd("Compile")
+end, { desc = 'Compile' })
+
 vim.keymap.set("n", '<leader>cr', '<Cmd>Recompile<CR>', { desc = 'Recompile' })
 
 vim.keymap.set("n", ']e', function()
@@ -117,10 +123,16 @@ vim.keymap.set({ "n", "t" }, "<C-k>", smart_nav("k"), opts)
 vim.keymap.set({ "n", "t" }, "<C-l>", smart_nav("l"), opts)
 
 
+local last_path = nil
 
 vim.keymap.set("n", "<leader>-", function()
-  local dir = vim.fn.input("Path: ", vim.fn.getcwd(), "dir")
+  if not last_path then
+    last_path = vim.fn.getcwd()
+  end
+
+  local dir = vim.fn.input("Path: ", last_path, "dir")
   if dir ~= "" then
+    last_path = dir
     require("oil").open(dir)
   end
 end, { desc = "Open Oil in custom dir" })
