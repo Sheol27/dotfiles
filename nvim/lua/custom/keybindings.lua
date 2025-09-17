@@ -130,9 +130,12 @@ vim.keymap.set("n", "<leader>-", function()
     last_path = vim.fn.getcwd()
   end
 
-  local dir = vim.fn.input("Path: ", last_path, "dir")
-  if dir ~= "" then
-    last_path = dir
-    require("oil").open(dir)
+  local ok, dir = pcall(vim.fn.input, "Directory: ", last_path, "dir")
+
+  if not ok or dir == "" then
+    return
   end
+
+  last_path = dir
+  require("oil").open(dir)
 end, { desc = "Open Oil in custom dir" })
