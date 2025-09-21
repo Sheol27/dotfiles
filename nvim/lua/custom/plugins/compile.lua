@@ -14,6 +14,7 @@ return {
       baleia_setup = true,
       bang_expansion = true,
       default_command = "",
+      input_word_completion = true,
       error_regexp_table = {
         rust = {
           regex = "^.*\\( -->\\|panicked at\\) \\(.*\\):\\([0-9]\\+\\):\\([0-9]\\+\\)",
