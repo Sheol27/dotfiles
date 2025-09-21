@@ -523,3 +523,6 @@ let &errorformat = s:rust_efm . ',' . &errorformat
   set errorformat+=%.%#File\ \"%f\"\\,\ line\ %l%.%#
 ]]
 
+local utils = require("custom.utils")
+
+utils.set_custom_tabline()

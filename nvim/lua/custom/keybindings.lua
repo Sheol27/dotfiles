@@ -126,11 +126,18 @@ vim.keymap.set({ "n", "t" }, "<C-l>", smart_nav("l"), opts)
 local last_path = nil
 
 vim.keymap.set("n", "<leader>-", function()
-  if not last_path then
-    last_path = vim.fn.getcwd()
+  local initial_path = utils.get_oil_dir()
+
+  if not initial_path then
+    local bufname = vim.api.nvim_buf_get_name(0)
+    if bufname ~= "" then
+      initial_path = vim.fn.fnamemodify(bufname, ":p:h")
+    else
+      initial_path =  vim.loop.cwd()
+    end
   end
 
-  local ok, dir = pcall(vim.fn.input, "Directory: ", last_path, "dir")
+  local ok, dir = pcall(vim.fn.input, "Directory: ", initial_path, "dir")
 
   if not ok or dir == "" then
     return
@@ -139,3 +146,5 @@ vim.keymap.set("n", "<leader>-", function()
   last_path = dir
   require("oil").open(dir)
 end, { desc = "Open Oil in custom dir" })
+
+vim.keymap.set('n', '<leader>ot', utils.open_oil_nav_tab, { desc = 'Oil: open navigation tab here' })

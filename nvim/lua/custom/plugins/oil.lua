@@ -40,7 +40,7 @@ return {
         end
 
         local sep = "❰!❱"
-          
+
         if inside then
           sep = "›"
         end
@@ -53,6 +53,8 @@ return {
       end
 
       local oil = require('oil')
+      local utils = require("custom.utils");
+
       oil.setup {
         columns = { 'icon', "permissions", "size", "mtime" },
         keymaps = {
@@ -64,32 +66,7 @@ return {
           ['<C-j>'] = false,
           ['<M-h>'] = 'actions.select_split',
           ['g-'] = 'actions.cd',
-          ["<leader>sf"] = {
-            callback = function()
-              local dir = oil.get_current_dir()
-              if not dir then return end
-              local ok, fzf = pcall(require, "fzf-lua")
-              if not ok then
-                vim.notify("fzf-lua not found", vim.log.levels.ERROR)
-                return
-              end
-              fzf.files({ cwd = dir })
-            end,
-            desc = "fzf-lua files in current oil dir",
-          },
-          ["<leader>sg"] = {
-            callback = function()
-              local dir = oil.get_current_dir()
-              if not dir then return end
-              local ok, fzf = pcall(require, "fzf-lua")
-              if not ok then
-                vim.notify("fzf-lua not found", vim.log.levels.ERROR)
-                return
-              end
-              fzf.live_grep_native({ cwd = dir })
-            end,
-            desc = "fzf-lua files in current oil dir",
-          },
+          ["T"] = utils.open_oil_nav_tab
         },
         win_options = {
           winbar = '%!v:lua.CustomOilBar()',
