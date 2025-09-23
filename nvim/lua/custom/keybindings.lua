@@ -49,7 +49,7 @@ end
 vim.keymap.set('n', '<leader>td', ToggleDiagnostics, { desc = 'Toggle LSP diagnostics' })
 
 vim.keymap.set("n", '<leader>cc', function() 
-  vim.g.compilation_directory = utils.get_oil_dir()
+  -- vim.g.compilation_directory = utils.get_oil_dir()
   vim.cmd("Compile")
 end, { desc = 'Compile' })
 
@@ -122,9 +122,6 @@ vim.keymap.set({ "n", "t" }, "<C-j>", smart_nav("j"), opts)
 vim.keymap.set({ "n", "t" }, "<C-k>", smart_nav("k"), opts)
 vim.keymap.set({ "n", "t" }, "<C-l>", smart_nav("l"), opts)
 
-
-local last_path = nil
-
 vim.keymap.set("n", "<leader>-", function()
   local initial_path = utils.get_oil_dir()
 
@@ -143,7 +140,6 @@ vim.keymap.set("n", "<leader>-", function()
     return
   end
 
-  last_path = dir
   require("oil").open(dir)
 end, { desc = "Open Oil in custom dir" })
 
