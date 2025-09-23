@@ -341,6 +341,40 @@ require('lazy').setup({
         return '%2l:%-2v'
       end
 
+      -- Custom function to show cwd and current file path similar to Oil.nvim custom bar
+      ---@diagnostic disable-next-line: duplicate-set-field
+      statusline.section_filename = function()
+        local cwd = vim.fn.getcwd(0, 0)
+        local file_path = vim.fn.expand('%:p')
+
+        if file_path == '' then
+          return vim.fn.fnamemodify(cwd, ':~')
+        end
+
+        local function noslash(p)
+          return (p or ''):gsub('/+$', '')
+        end
+
+        local cwd_clean = noslash(cwd)
+        local file_dir = vim.fn.fnamemodify(file_path, ':h')
+        local file_name = vim.fn.fnamemodify(file_path, ':t')
+
+        local cwd_disp = vim.fn.fnamemodify(cwd, ':~')
+
+        if file_path:sub(1, #cwd_clean) == cwd_clean then
+          local rel_path = vim.fn.fnamemodify(file_path, ':.')
+          local rel_dir = vim.fn.fnamemodify(rel_path, ':h')
+
+          if rel_dir == '.' then
+            return cwd_disp .. ' › ' .. file_name
+          else
+            return cwd_disp .. ' › ' .. rel_dir .. ' › ' .. file_name
+          end
+        else
+          return cwd_disp .. ' ❰!❱ ' .. vim.fn.fnamemodify(file_path, ':~')
+        end
+      end
+
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
