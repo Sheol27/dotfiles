@@ -49,11 +49,14 @@ end
 vim.keymap.set('n', '<leader>td', ToggleDiagnostics, { desc = 'Toggle LSP diagnostics' })
 
 vim.keymap.set("n", '<leader>cc', function() 
-  -- vim.g.compilation_directory = utils.get_oil_dir()
+  vim.g.compilation_directory = utils.get_oil_dir()
   vim.cmd("Compile")
 end, { desc = 'Compile' })
 
-vim.keymap.set("n", '<leader>cr', '<Cmd>Recompile<CR>', { desc = 'Recompile' })
+vim.keymap.set("n", '<leader>cr', function()
+  vim.g.compilation_directory = utils.get_oil_dir()
+  vim.cmd("Recompile")
+end, { desc = 'Recompile' })
 
 vim.keymap.set("n", ']e', function()
   vim.cmd(tostring(vim.v.count1) .. "NextError")

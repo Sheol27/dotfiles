@@ -66,6 +66,8 @@ return {
           ['<C-j>'] = false,
           ['<M-h>'] = 'actions.select_split',
           ['g-'] = 'actions.cd',
+          ['gr'] = 'actions.refresh',
+          ['gw'] = { "actions.cd", mode = "n" },
           ["T"] = utils.open_oil_nav_tab
         },
         win_options = {
