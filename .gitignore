@@ -12,3 +12,7 @@
 !zshrc
 !flake.nix
 !flake.lock
+!waybar
+!waybar/**
+!doom
+!doom/**
