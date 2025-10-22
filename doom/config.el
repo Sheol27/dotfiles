@@ -88,8 +88,6 @@
     ;; SPC SPC → switch workspace buffer (via Consult)
     :desc "Switch workspace buffer" "SPC" #'consult-buffer
 
-    :desc "Smart compile" "c c" #'custom/compile-in-correct-directory
-
     ;; SPC s ... → search & file operations
     (:prefix ("s" . "search")
       ;; SPC s f → jump to file in project
@@ -101,53 +99,22 @@
       ;; SPC s G (Shift-g) → search in another directory
       :desc "Search in another directory" "G" #'+default/search-other-cwd)))
 
-(defun custom/compile-in-correct-directory ()
-  "Run `compile` with working directory intelligently chosen.
-If in a Dired buffer, use that directory.
-Otherwise, use the project root if available."
-  (interactive)
-  (let* ((default-dir
-           (cond
-            ;; If in dired, use that directory
-            ((derived-mode-p 'dired-mode)
-             (dired-current-directory))
-            ;; If in a project, use project root
-            ((project-current)
-             (project-root (project-current)))
-            ;; Fallback: current directory
-            (t default-directory))))
-    (let ((default-directory default-dir))
-      (call-interactively #'compile))))
-
-
 (after! lsp-mode
   (setq lsp-diagnostics-provider :none))
 (setq display-line-numbers-type 'relative)
 
+(use-package! websocket
+    :after org-roam)
 
+(use-package! org-roam-ui
+    :after org-roam ;; or :after org
+;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+;;         a hookable mode anymore, you're advised to pick something yourself
+;;         if you don't care about startup time, use
+;;  :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
 
-
-
-
-
-
-(defun my/compile-history-edit ()
-  "Open the compile history in an editable buffer."
-  (interactive)
-  (let ((buf (get-buffer-create "*Compile History*")))
-    (with-current-buffer buf
-      (erase-buffer)
-      (insert (mapconcat #'identity compile-history "\n"))
-      (setq-local my/compile-history-mode t)
-      (setq-local buffer-read-only nil))
-    (switch-to-buffer buf)))
-
-(defun my/compile-history-save-and-run ()
-  "Save changes in the compile history buffer and run compile."
-  (interactive)
-  (when (eq major-mode 'fundamental-mode)
-    (setq compile-history
-          (split-string (buffer-string) "\n" t))
-    (call-interactively #'compile)))
-
-(define-key global-map (kbd "C-c h") #'my/compile-history-edit)
