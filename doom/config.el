@@ -118,3 +118,17 @@
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
 
+;; Prefer tree-sitter modes where available
+(setq major-mode-remap-alist
+      '((bash-mode          . bash-ts-mode)
+        (js2-mode           . js-ts-mode)
+        (typescript-mode     . typescript-ts-mode)
+        (json-mode           . json-ts-mode)
+        (python-mode         . python-ts-mode)
+        (css-mode            . css-ts-mode)
+        (yaml-mode           . yaml-ts-mode)
+        (c-mode              . c-ts-mode)
+        (c++-mode            . c++-ts-mode)
+        (go-mode             . go-ts-mode)
+        (rust-mode           . rust-ts-mode)
+        (toml-mode           . toml-ts-mode)))
