@@ -137,3 +137,6 @@
                '("w" "web site" entry (file+headline org-default-notes-file "Inbox")
                  "* TODO [[%:link][%:description]]\n:PROPERTIES:\n:Captured: %U\n:END:\n\n%i"
                  :immediate-finish t :empty-lines 1)))
+(setq elfeed-feeds
+      '("https://news.ycombinator.com/rss"
+        "https://lobste.rs/rss"))
