@@ -133,19 +133,24 @@
         (rust-mode           . rust-ts-mode)
         (toml-mode           . toml-ts-mode)))
 
-(after! org
-  (add-to-list 'org-capture-templates
-               '("w" "web site" entry (file+headline org-default-notes-file "Inbox")
-                 "* TODO [[%:link][%:description]]\n:PROPERTIES:\n:Captured: %U\n:END:\n\n%i"
-                 :immediate-finish t :empty-lines 1)))
-
 (setq elfeed-feeds
       '("https://news.ycombinator.com/rss"
         "https://lobste.rs/rss"))
 
+(after! org
+  (add-to-list 'org-capture-templates
+               '("w" "web site" entry (file+headline org-default-notes-file "Inbox")
+                 "* TODO [[%:link][%:description]] :inbox:web:\n:PROPERTIES:\n:Captured: %U\n:END:\n\n%i"
+                 :immediate-finish t :empty-lines 1)))
+
 (after! org-roam
-  (setq org-agenda-files (directory-files-recursively "~/org/roam" "\\.org$"))
+  (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
   (setq org-roam-dailies-capture-templates
         '(("d" "default" entry "* %<%H:%M>: %?"
            :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n")))))
 
+(display-time-mode t)
+
+(customize-set-variable 'display-time-string-forms
+  '((propertize (format-time-string "%a %H:%M" now)
+                'help-echo (format-time-string "%a, %b %e %Y" now))))
