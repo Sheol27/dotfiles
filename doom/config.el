@@ -10,13 +10,14 @@
 
 (setq org-directory "~/org/")
 
-(map!
-  ;; Make gj/gk move by *wrapped* (visual) lines
-  :nv "gj" #'evil-next-visual-line
-  :nv "gk" #'evil-previous-visual-line
-  :o  "gj" #'evil-next-visual-line
-  :o  "gk" #'evil-previous-visual-line
+(after! evil
+  (map! :map evil-motion-state-map
+        "j"  #'evil-next-visual-line
+        "k"  #'evil-previous-visual-line
+        "gj" #'evil-next-visual-line
+        "gk" #'evil-previous-visual-line))
 
+(map!
   ;; Leader keybindings
   (:leader
     ;; SPC SPC → switch workspace buffer (via Consult)
@@ -73,3 +74,8 @@
 (customize-set-variable 'display-time-string-forms
   '((propertize (format-time-string "%a %H:%M" now)
                 'help-echo (format-time-string "%a, %b %e %Y" now))))
+
+(setq org-latex-create-formula-image-program 'dvisvgm)
+(setq org-preview-latex-default-process 'dvisvgm)
+(setq org-format-latex-options
+      (plist-put org-format-latex-options :background "Transparent"))
