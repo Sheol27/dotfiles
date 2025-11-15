@@ -69,13 +69,10 @@
                         "#+title: ${title}\n#+filetags: :inbox:\n")
         :unnarrowed t))))
 
-(display-time-mode t)
-
-(customize-set-variable 'display-time-string-forms
-  '((propertize (format-time-string "%a %H:%M" now)
-                'help-echo (format-time-string "%a, %b %e %Y" now))))
-
 (setq org-latex-create-formula-image-program 'dvisvgm)
 (setq org-preview-latex-default-process 'dvisvgm)
-(setq org-format-latex-options
-      (plist-put org-format-latex-options :background "Transparent"))
+
+(after! vterm
+  (setq vterm-timer-delay 0.01))
+
+(setq! citar-bibliography '("~/Documents/Literature/PMI.bib"))
