@@ -1,28 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <object class="GtkMenu" id="menu">
+
+    <!-- Sleep submenu -->
     <child>
-		<object class="GtkMenuItem" id="suspend">
-			<property name="label">Suspend</property>
-        </object>
-	</child>
-	<child>
-        <object class="GtkMenuItem" id="hibernate">
-			<property name="label">Hibernate</property>
-        </object>
-	</child>
-    <child>
-        <object class="GtkMenuItem" id="shutdown">
-			<property name="label">Shutdown</property>
-        </object>
+      <object class="GtkMenuItem" id="sleep">
+        <property name="label">Sleep</property>
+        <child type="submenu">
+          <object class="GtkMenu" id="sleep_menu">
+            <child>
+              <object class="GtkMenuItem" id="suspend">
+                <property name="label">Suspend</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="hibernate">
+                <property name="label">Hibernate</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
     </child>
+
     <child>
       <object class="GtkSeparatorMenuItem" id="delimiter1"/>
     </child>
+
+    <!-- Power submenu -->
     <child>
-		<object class="GtkMenuItem" id="reboot">
-			<property name="label">Reboot</property>
-		</object>
+      <object class="GtkMenuItem" id="power">
+        <property name="label">Power</property>
+        <child type="submenu">
+          <object class="GtkMenu" id="power_menu">
+            <child>
+              <object class="GtkMenuItem" id="reboot">
+                <property name="label">Reboot</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="shutdown">
+                <property name="label">Shutdown</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
     </child>
+
   </object>
 </interface>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu>
+  <item>
+    <attribute name="label">Toggle Inhibitor</attribute>
+    <attribute name="action">toggle-inhibitor</attribute>
+  </item>
+
+  <separator/>
+
+  <item>
+    <attribute name="label">Power Options</attribute>
+    <submenu>
+      <item>
+        <attribute name="label">Suspend</attribute>
+        <attribute name="action">suspend</attribute>
+      </item>
+      <item>
+        <attribute name="label">Hibernate</attribute>
+        <attribute name="action">hibernate</attribute>
+      </item>
+
+      <separator/>
+
+      <item>
+        <attribute name="label">Reboot</attribute>
+        <attribute name="action">reboot</attribute>
+      </item>
+      <item>
+        <attribute name="label">Shutdown</attribute>
+        <attribute name="action">shutdown</attribute>
+      </item>
+    </submenu>
+  </item>
+</menu>

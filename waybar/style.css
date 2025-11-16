@@ -18,10 +18,31 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* System status group */
-#disk,
+/* Audio/Display group */
 #pulseaudio,
-#backlight,
+#backlight {
+    background-color: rgba(40, 42, 54, 0.95);
+    color: #f8f8f2;
+    padding: 0 12px;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+#pulseaudio {
+    margin-right: 3px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#backlight {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+/* Information group */
+#disk,
 #battery {
     background-color: rgba(40, 42, 54, 0.95);
     color: #f8f8f2;
@@ -32,7 +53,7 @@
 }
 
 #disk {
-    margin-right: 3px;
+    margin-left: 6px;
     border-top-left-radius: 12px;
     border-bottom-left-radius: 12px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -44,9 +65,8 @@
 }
 
 /* Control/tray group */
-#inhibitor,
 #tray,
-#custom-power {
+#custom-controls {
     background-color: rgba(40, 42, 54, 0.95);
     color: #f8f8f2;
     padding: 0 12px;
@@ -55,14 +75,14 @@
     box-shadow: none;
 }
 
-#inhibitor {
+#tray {
     margin-left: 6px;
     border-top-left-radius: 12px;
     border-bottom-left-radius: 12px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-#custom-power {
+#custom-controls {
     border-top-right-radius: 12px;
     border-bottom-right-radius: 12px;
 }
@@ -112,7 +132,7 @@ window#waybar.hidden {
     font-weight: 600;
 }
 
-#custom-power {
+#custom-controls {
     padding: 0 8px;
 }
 

@@ -9,14 +9,13 @@
         "clock",
     ],
     "modules-right": [
-        "disk",
         // "custom/spotify",
         "pulseaudio",
         "backlight",
+        "disk",
         "battery",
-        "inhibitor",
         "tray",
-        "custom/power",
+        "custom/controls",
     ],
     "mpd": {
         "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
@@ -124,19 +123,19 @@
         "tooltip": true,
         "class": "tray-group-member"
     },
-    "custom/power": {
-        "format" : "⏻ ",
-        "tooltip": false,
-        "menu": "on-click",
-        "menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
-        "menu-actions": {
-            "shutdown": "shutdown now",
-            "reboot": "reboot",
-            "suspend": "systemctl suspend",
-            "hibernate": "systemctl hibernate"
-        },
-        "class": "tray-item" 
-    },
+"custom/controls": {
+  "format": "⚙️",
+  "tooltip": false,
+  "menu": "on-click",
+  "menu-file": "$HOME/.config/waybar/controls_menu.xml",
+  "menu-actions": {
+    "suspend": "systemctl suspend",
+    "hibernate": "systemctl hibernate",
+    "reboot": "systemctl reboot",
+    "shutdown": "systemctl poweroff"
+  },
+  "class": "tray-item"
+},
     "custom/spotify": {
         "exec": "/usr/bin/env python3 -u ~/.config/waybar/scripts/mediaplayer.py",
         "return-type": "json",

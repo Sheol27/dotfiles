@@ -19,7 +19,7 @@ alias cat='bat'
 export PATH=/opt/homebrew/bin:$PATH
 
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ] && [[ ! "$TERM_PROGRAM" = "vscode" ]]; then
- exec tmux new-session
+ # exec tmux new-session
 fi
 
 # bun
@@ -53,3 +53,5 @@ export CMAKE_PREFIX_PATH=$libraries:$CMAKE_PREFIX_PATH
 export DYLD_LIBRARY_PATH=$libraries/lib:$DYLD_LIBRARY_PATH
 
 . "$HOME/.cargo/env"
+
+export LC_TIME=en_US.UTF-8
