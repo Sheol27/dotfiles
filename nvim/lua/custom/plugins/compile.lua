@@ -1,11 +1,11 @@
 return {
   "ej-shafran/compile-mode.nvim",
-  version = "^5.0.0",
+  version = "^5.9.0",
   dependencies = { 
     "nvim-lua/plenary.nvim",
     { "m00qek/baleia.nvim", tag = "v1.4.0" },
   },
-  dev = false,
+  dev = true,
   config = function()
     local levels = require("compile-mode.errors").level
 
