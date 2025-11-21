@@ -76,3 +76,5 @@
   (setq vterm-timer-delay 0.01))
 
 (setq! citar-bibliography '("~/Documents/Literature/PMI.bib"))
+
+(setq delete-by-moving-to-trash t)
