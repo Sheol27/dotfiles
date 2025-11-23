@@ -53,5 +53,7 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 (package! websocket)
-(unpin! org-roam)
 (package! org-roam-ui)
+
+(package! org-alert)
+(package! alert)
