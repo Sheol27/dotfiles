@@ -75,6 +75,38 @@
 (after! vterm
   (setq vterm-timer-delay 0.01))
 
-(setq! citar-bibliography '("~/Documents/Literature/PMI.bib"))
+(after! citar
+  (setq! citar-bibliography (directory-files "~/Documents/Literature/" t "\\.bib$"))
+  (setq citar-templates
+        '((main . "${author editor:30%sn}     ${date year issued:4}     ${title:48}")
+          (suffix . "          ${=key= id:15}    ${=type=:12}    ${tags groups keywords:*}")
+          (preview . "${author editor:%etal} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.\n")
+          (note . "Notes on ${author editor:%etal}, ${title}")))
+  (setq! org-cite-insert-processor 'citar)
+  (setq! org-cite-follow-processor 'citar)
+  (setq! org-cite-activate-processor 'citar)
+  (setq! citar-org-roam-note-title-template "${author} - ${title}\n#+filetags: :paper:"))
+
+(map! :map org-mode-map
+      :leader
+      :prefix ("n" . "notes")
+      "B" #'citar-org-roam-open-current-refs)
 
 (setq delete-by-moving-to-trash t)
+
+;; Shorten org-attach URL filenames: strip query string from URL
+(after! org-attach
+  (defun my/org-attach-url-strip-query (orig-fun url &rest args)
+    "Call ORIG-FUN with URL but strip ?query=… so filename is shorter."
+    (let* ((parsed (url-generic-parse-url url))
+           (fname  (url-filename parsed))
+           (q-pos  (and fname (string-match "\\?" fname))))
+      (when q-pos
+        ;; keep only the path part before `?`
+        (setf (url-filename parsed)
+              (substring fname 0 q-pos))
+        (setq url (url-recreate-url parsed)))
+      (apply orig-fun url args)))
+
+  (advice-add 'org-attach-url :around #'my/org-attach-url-strip-query))
+
