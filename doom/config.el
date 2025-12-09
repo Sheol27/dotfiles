@@ -69,23 +69,28 @@
                         "#+title: ${title}\n#+filetags: :inbox:\n")
         :unnarrowed t))))
 
-(setq org-latex-create-formula-image-program 'dvisvgm)
-(setq org-preview-latex-default-process 'dvisvgm)
+(after! ox-latex
+  (add-to-list 'org-latex-packages-alist '("" "hyperref" nil))
+  (setq org-latex-create-formula-image-program 'dvisvgm)
+  (setq org-preview-latex-default-process 'dvisvgm)
+  (setq org-latex-hyperref-template
+        "\\hypersetup{hidelinks}\n"))
 
 (after! vterm
   (setq vterm-timer-delay 0.01))
 
 (after! citar
   (setq! citar-bibliography (directory-files "~/Documents/Literature/" t "\\.bib$"))
+  (setq! org-cite-global-bibliography citar-bibliography)
   (setq citar-templates
         '((main . "${author editor:30%sn}     ${date year issued:4}     ${title:48}")
           (suffix . "          ${=key= id:15}    ${=type=:12}    ${tags groups keywords:*}")
-          (preview . "${author editor:%etal} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.\n")
+          (preview . "${author editor:%etal} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title keywords}.\n")
           (note . "Notes on ${author editor:%etal}, ${title}")))
   (setq! org-cite-insert-processor 'citar)
   (setq! org-cite-follow-processor 'citar)
   (setq! org-cite-activate-processor 'citar)
-  (setq! citar-org-roam-note-title-template "${author} - ${title}\n#+filetags: :paper:"))
+  (setq! citar-org-roam-note-title-template "${title}\n#+authors: ${author}\n#+filetags: :paper:"))
 
 (map! :map org-mode-map
       :leader
@@ -109,4 +114,3 @@
       (apply orig-fun url args)))
 
   (advice-add 'org-attach-url :around #'my/org-attach-url-strip-query))
-
