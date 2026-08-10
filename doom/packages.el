@@ -54,6 +54,7 @@
 ;; (unpin! t)
 (package! websocket)
 (package! org-roam-ui)
-
 (package! org-alert)
 (package! alert)
+(package! engrave-faces)
+(package! org-super-agenda)
