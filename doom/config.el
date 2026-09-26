@@ -24,6 +24,9 @@
 
 (setq gcmh-low-cons-threshold (* 16 1024 1024))
 
+(setq doom-incremental-first-idle-timer 1.0)
+(setq initial-major-mode 'fundamental-mode)
+
 (setq-default tab-width 4)
 (setq-default evil-shift-width 4)
 (setq-default standard-indent 4)
