@@ -107,3 +107,21 @@ Interactively, leave the URL empty to create+init."
                 (string-suffix-p "-ts-mode-indent-offset"
                                  (symbol-name sym)))
        (set sym 4)))))
+
+(defun my/git-conventional-message ()
+    "Generate Conventional Commits style messages"
+  (interactive)
+  (let* ((choices '("feat" "fix" "docs" "style" "refactor" "perf" "test" "chore"))
+         (type (completing-read "Type: " choices nil t))
+         (scope (read-string "Scope (optional): "))
+         (description (read-string "Description: "))
+         (breaking (y-or-n-p "Breaking change? "))
+         (breaking-desc (when breaking
+                          (read-string "Describe the breaking change: "))))
+    (insert (concat type
+                     (if (string-empty-p scope) "" (concat "(" scope ")"))
+                     (if breaking "!" "")
+                     ": " description
+                     (if breaking
+                         (concat "\n\nBREAKING CHANGE: " breaking-desc)
+                       "")))))

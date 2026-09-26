@@ -7,10 +7,12 @@
     doom-variable-pitch-font (font-spec :family "FiraCode Nerd Font" :size 20))
 
 (setq doom-theme 'modus-vivendi)
-(setq fancy-splash-image "~/.config/doom/emacs.tiff")
+(setq fancy-splash-image "~/.config/doom/dragon.svg")
 (setq display-line-numbers-type 'relative)
 (setq ns-use-native-fullscreen t)
 (setq delete-by-moving-to-trash t)
+
+(setq gcmh-low-cons-threshold (* 16 1024 1024))
 
 (setq-default tab-width 4)
 (setq-default evil-shift-width 4)
@@ -38,14 +40,17 @@
         :desc "Switch to other workspace" "RET" #'+workspace/other))
 
 (after! evil
+    (map! :n "j" #'evil-next-visual-line
+        :n "k" #'evil-previous-visual-line)
     (defalias #'forward-evil-word #'forward-evil-symbol)
     (setq evil-symbol-word-search t))
 
 (after! treesit
     (my/set-all-ts-indent)
     (add-hook 'after-load-functions
-        (lambda (_file)
-            (my/set-all-ts-indent))))
+        (lambda (file)
+            (when (string-match-p "-ts-mode" file)
+                (my/set-all-ts-indent)))))
 
 (after! projectile
     (setq projectile-auto-cleanup-known-projects t))
