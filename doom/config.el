@@ -7,7 +7,17 @@
     doom-variable-pitch-font (font-spec :family "FiraCode Nerd Font" :size 20))
 
 (setq doom-theme 'modus-vivendi)
+(add-to-list 'default-frame-alist '(alpha-background . 90))
 (setq fancy-splash-image "~/.config/doom/dragon.svg")
+
+(defadvice! my/dashboard-transparent-splash-a (fn &rest args)
+    :around #'+dashboard-widget-banner
+    (let ((create-image-fn (symbol-function 'create-image)))
+        (cl-letf (((symbol-function 'create-image)
+                      (lambda (file &optional type data-p &rest props)
+                          (apply create-image-fn file type data-p :mask 'heuristic props))))
+            (apply fn args))))
+
 (setq display-line-numbers-type 'relative)
 (setq ns-use-native-fullscreen t)
 (setq delete-by-moving-to-trash t)
