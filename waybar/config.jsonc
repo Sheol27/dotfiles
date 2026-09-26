@@ -1,145 +1,215 @@
 // -*- mode: jsonc -*-
 {
-    "margin": "5 0 0 10",
+    "include": ["~/.config/waybar/layout.jsonc"],
+
+    "layer": "top",
+    "spacing": 6,
+
     "modules-left": [
-        "hyprland/workspaces",
-        "custom/media"
+        "custom/launcher",
+        "hyprland/workspaces"
     ],
     "modules-center": [
         "clock",
+        "custom/media"
     ],
     "modules-right": [
-        // "custom/spotify",
-        "pulseaudio",
-        "backlight",
-        "disk",
-        "battery",
         "tray",
-        "custom/controls",
+        "bluetooth",
+        "network",
+        "pulseaudio",
+        "group/controls",
+        "battery",
+        "custom/power"
     ],
-    "mpd": {
-        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
-        "format-disconnected": "Disconnected ",
-        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
-        "unknown-tag": "N/A",
-        "interval": 5,
-        "consume-icons": {
-            "on": " "
-        },
-        "random-icons": {
-            "off": "<span color=\"#f53c3c\"></span> ",
-            "on": " "
-        },
-        "repeat-icons": {
-            "on": " "
-        },
-        "single-icons": {
-            "on": "1 "
-        },
-        "state-icons": {
-            "paused": "",
-            "playing": ""
-        },
-        "tooltip-format": "MPD (connected)",
-        "tooltip-format-disconnected": "MPD (disconnected)"
-    },
-    "tray": {
-        // "icon-size": 21,
-        "spacing": 10,
-        "class": "tray-item" 
-    },
-    "clock": {
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "{:%Y-%m-%d}"
-    },
-    "cpu": {
-        "format": "{usage}% ",
-        "tooltip": false
-    },
-    "memory": {
-        "format": "{}% "
+
+    "custom/launcher": {
+        "format": "",
+        "tooltip-format": "Apps",
+        "on-click": "pkill wofi || wofi --show drun"
     },
 
-    "disk": {
-        "format": "{percentage_used}% /"
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "1": "1", "2": "2", "3": "3", "4": "4", "5": "5",
+            "6": "6", "7": "7", "8": "8", "9": "9",
+            "10": "\ue632"
+        },
+        "on-scroll-up": "hyprctl dispatch workspace e-1",
+        "on-scroll-down": "hyprctl dispatch workspace e+1",
+        "persistent-workspaces": {
+            "*": 5,
+            "10": []
+        }
     },
+
+    "clock": {
+        "tooltip-format": "<big>{:%A, %d %B %Y}</big>\n<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month",
+            "weeks-pos": "",
+            "on-scroll": 1,
+            "format": {
+                "months": "<span color='#f8f8f2'><b>{}</b></span>",
+                "weekdays": "<span color='#8be9fd'><b>{}</b></span>",
+                "today": "<span color='#ff79c6'><b><u>{}</u></b></span>"
+            }
+        },
+        "actions": {
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
+    },
+
+    "custom/media": {
+        "exec": "/usr/bin/env python3 -u ~/.config/waybar/scripts/media.py",
+        "return-type": "json",
+        "format": "{}",
+        "on-click": "playerctl play-pause",
+        "on-click-right": "playerctl next",
+        "on-click-middle": "playerctl previous",
+        "on-scroll-up": "playerctl volume 0.05+",
+        "on-scroll-down": "playerctl volume 0.05-"
+    },
+
+    "tray": {
+        "icon-size": 16,
+        "spacing": 8
+    },
+
+    "group/controls": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 300,
+            "transition-left-to-right": false,
+            "children-class": "controls-child"
+        },
+        "modules": [
+            "custom/controls",
+            "pulseaudio#mic",
+            "backlight",
+            "idle_inhibitor",
+            "custom/perf",
+            "custom/layout"
+        ]
+    },
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        },
+        "tooltip-format-activated": "Idle inhibitor: on (screen stays awake)",
+        "tooltip-format-deactivated": "Idle inhibitor: off"
+    },
+
+    "bluetooth": {
+        "format": "",
+        "format-disabled": "",
+        "format-off": "",
+        "format-connected": "",
+        "tooltip-format": "{controller_alias}\n{status}",
+        "tooltip-format-connected": "{controller_alias}\n{num_connections} connected\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}  {device_battery_percentage}%",
+        "on-click": "blueman-manager"
+    },
+
+    "network": {
+        "format-wifi": "",
+        "format-ethernet": "",
+        "format-disconnected": "",
+        "format-linked": "",
+        "format-disabled": "\uf127",
+        "tooltip-format-disabled": "Wi-Fi off — right-click to turn on",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ipaddr}/{cidr}\n {bandwidthDownBytes}   {bandwidthUpBytes}",
+        "tooltip-format-ethernet": "{ifname}\n{ipaddr}/{cidr}",
+        "tooltip-format-disconnected": "Disconnected",
+        "interval": 5,
+        "on-click": "~/.config/waybar/scripts/wifi-tui.sh",
+        "on-click-right": "nmcli radio wifi | grep -q enabled && nmcli radio wifi off || nmcli radio wifi on",
+        "on-click-middle": "nm-connection-editor"
+    },
+
+    "pulseaudio": {
+        "scroll-step": 2,
+        "format-muted": "",
+        "format-bluetooth-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "default": ["", "", ""]
+        },
+        "tooltip-format": "{desc}\nVolume {volume}%  ·  Mic {format_source}",
+        "format-source": "{volume}%",
+        "format-source-muted": "muted",
+        "on-click": "pavucontrol",
+        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-click-middle": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+    },
+
+    "custom/controls": {
+        "format": "\uf1de",
+        "tooltip-format": "Mic · Display · Idle inhibitor · Power mode"
+    },
+
+    // TLP power mode
+    "custom/perf": {
+        "exec": "~/.config/waybar/scripts/perf-mode.sh status",
+        "return-type": "json",
+        "interval": 30,
+        "signal": 9,
+        "on-click": "~/.config/waybar/scripts/perf-mode.sh next",
+        "on-click-right": "~/.config/waybar/scripts/perf-mode.sh auto"
+    },
+
+    "custom/layout": {
+        "on-click": "~/.config/waybar/scripts/toggle-layout.sh"
+    },
+
+    "pulseaudio#mic": {
+        "format": "{format_source}",
+        "format-muted": "{format_source}",
+        "format-bluetooth": "{format_source}",
+        "format-bluetooth-muted": "{format_source}",
+        "format-source-muted": "\uf131",
+        "tooltip-format": "Mic {format_source}",
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
+        "on-click-right": "pavucontrol --tab=4",
+        "on-scroll-up": "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SOURCE@ 2%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 2%-"
+    },
+
     "backlight": {
-        // "device": "acpi_video1",
-        "format": "{percent}% {icon}",
-        "format-icons": ["", "", "", "", "", "", "", "", ""]
+        "tooltip-format": "Brightness {percent}%",
+        "on-scroll-up": "brightnessctl -q set 2%+",
+        "on-scroll-down": "brightnessctl -q set 2%-"
     },
+
     "battery": {
         "states": {
-            "good": 70,
             "warning": 30,
             "critical": 15
         },
-        "format": "{capacity}% {icon}",
-        "format-full": "{capacity}% {icon}",
-        "format-charging": "{capacity}% ",
-        "format-plugged": "{capacity}% ",
-        "format-alt": "{time} {icon}",
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
+        "tooltip-format": "{capacity}%  ·  {timeTo}\nPower draw: {power:.1f} W",
         "format-icons": ["", "", "", "", ""]
     },
-    "power-profiles-daemon": {
-        "format": "{icon}",
-        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
-        "tooltip": true,
-        "format-icons": {
-            "default": "",
-            "performance": "",
-            "balanced": "",
-            "power-saver": ""
+
+    "custom/power": {
+        "format": "",
+        "tooltip-format": "Power menu",
+        "menu": "on-click",
+        "menu-file": "$HOME/.config/waybar/power_menu.xml",
+        "menu-actions": {
+            "lock": "hyprlock",
+            "logout": "hyprctl dispatch exit",
+            "suspend": "systemctl suspend",
+            "hibernate": "systemctl hibernate",
+            "reboot": "systemctl reboot",
+            "shutdown": "systemctl poweroff"
         }
-    },
-    "pulseaudio": {
-        "scroll-step": 2, 
-        "format": "{volume}% {icon} {format_source}",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " {format_source}",
-        "format-source": "{volume}% ",
-        "format-source-muted": "",
-        "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", "", ""]
-        },
-        "on-click": "pavucontrol"
-    },
-    "inhibitor": {
-        "what": "idle",
-        "format": "{icon}",
-        "format-icons": {
-            "activated": "🔐",
-            "deactivated": "🔓"
-        },
-        "tooltip": true,
-        "class": "tray-group-member"
-    },
-"custom/controls": {
-  "format": "⚙️",
-  "tooltip": false,
-  "menu": "on-click",
-  "menu-file": "$HOME/.config/waybar/controls_menu.xml",
-  "menu-actions": {
-    "suspend": "systemctl suspend",
-    "hibernate": "systemctl hibernate",
-    "reboot": "systemctl reboot",
-    "shutdown": "systemctl poweroff"
-  },
-  "class": "tray-item"
-},
-    "custom/spotify": {
-        "exec": "/usr/bin/env python3 -u ~/.config/waybar/scripts/mediaplayer.py",
-        "return-type": "json",
-        "format": "{text}",
-        // "on-click": "playerctl play-pause"
-    },
+    }
 }

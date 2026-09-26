@@ -1,0 +1,31 @@
+// Horizontal bar along the top edge. Included from config.jsonc via layout.jsonc.
+{
+    "position": "top",
+    "height": 38,
+    "margin": "6 8 0 8",
+
+    "clock": {
+        "format": "{:%H:%M}",
+        "format-alt": "{:%a %d %b}"
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-bluetooth": " {volume}%"
+    },
+    "pulseaudio#mic": {
+        "format-source": " {volume}%"
+    },
+    "backlight": {
+        "format": " {percent}%"
+    },
+    "battery": {
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-full": "{icon} {capacity}%"
+    },
+    "custom/layout": {
+        "format": "",
+        "tooltip-format": "Switch to vertical bar"
+    }
+}
